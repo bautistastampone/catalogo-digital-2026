@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Digital 2026</title>
+    <title>Catálogo Digital 2026 - Editable</title>
     <style>
         * {
             margin: 0;
@@ -19,44 +19,49 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            overflow: hidden;
         }
         
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: white;
+            border-radius: 10px 10px 0 0;
             padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             text-align: center;
         }
         
         header h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        header p {
+            color: #666;
+            font-size: 14px;
         }
         
         .toolbar {
+            background: white;
+            padding: 20px 30px;
             display: flex;
-            gap: 10px;
-            padding: 20px;
-            background: #f8f9fa;
+            gap: 15px;
             flex-wrap: wrap;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .search-box {
-            flex: 1;
-            min-width: 200px;
+        .search-filters {
             display: flex;
             gap: 10px;
+            flex: 1;
+            min-width: 300px;
+            flex-wrap: wrap;
         }
         
-        input[type="text"] {
-            flex: 1;
+        input[type="text"],
+        select {
             padding: 10px 15px;
             border: 2px solid #ddd;
             border-radius: 5px;
@@ -64,19 +69,22 @@
             transition: border-color 0.3s;
         }
         
-        input[type="text"]:focus {
+        input[type="text"]:focus,
+        select:focus {
             outline: none;
             border-color: #667eea;
         }
         
         select {
-            padding: 10px 15px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
+            min-width: 120px;
             cursor: pointer;
             background: white;
-            min-width: 150px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         button {
@@ -88,11 +96,14 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            white-space: nowrap;
         }
         
         button:hover {
             background: #764ba2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
         
         button.secondary {
@@ -103,111 +114,39 @@
             background: #5a6268;
         }
         
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 30px;
+        button.danger {
+            background: #dc3545;
         }
         
-        .product-card {
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 15px;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
+        button.danger:hover {
+            background: #c82333;
         }
         
-        .product-card:hover {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
+        button.success {
+            background: #28a745;
         }
         
-        .product-name {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #333;
-            min-height: 40px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .product-sku {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 8px;
-        }
-        
-        .product-category {
-            display: inline-block;
-            background: #e9ecef;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
-        .product-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .price-currency {
-            font-size: 12px;
-            color: #999;
-        }
-        
-        .no-price {
-            color: #999;
-            font-size: 12px;
-            font-style: italic;
-        }
-        
-        .edit-mode .price-input {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid #667eea;
-            border-radius: 3px;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-        
-        .empty-state h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
+        button.success:hover {
+            background: #218838;
         }
         
         .stats {
+            background: white;
+            padding: 20px 30px;
             display: flex;
             gap: 20px;
-            padding: 20px;
-            background: #f8f9fa;
             flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .stat {
             flex: 1;
-            min-width: 150px;
-            background: white;
+            min-width: 120px;
             padding: 15px;
+            background: #f8f9fa;
             border-radius: 5px;
-            text-align: center;
             border-left: 4px solid #667eea;
+            text-align: center;
         }
         
         .stat-value {
@@ -221,34 +160,405 @@
             color: #999;
             margin-top: 5px;
         }
+        
+        .main-content {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+        
+        .product-card.edited {
+            border-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .product-image-container {
+            width: 100%;
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .edit-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .product-card:hover .edit-image-btn {
+            opacity: 1;
+        }
+        
+        .product-info {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        
+        .product-sku {
+            font-size: 11px;
+            color: #999;
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        .edited-badge {
+            background: #ffc107;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            min-height: 40px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-category {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .product-description {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+        
+        .price-currency {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+        
+        .no-price {
+            color: #999;
+            font-size: 12px;
+            font-style: italic;
+        }
+        
+        .edit-price-input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+        
+        .product-actions button {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 12px;
+            margin: 0;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+        
+        .empty-state h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination button {
+            padding: 8px 12px;
+            min-width: 40px;
+        }
+        
+        .pagination button.active {
+            background: #764ba2;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-buttons button {
+            flex: 1;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 12px;
+            background: #f0f0f0;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        
+        .file-input-label:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+        
+        .image-preview {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 5px;
+            margin-top: 15px;
+            object-fit: cover;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 2000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .toast.error {
+            background: #dc3545;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .toolbar {
+                flex-direction: column;
+            }
+            
+            .search-filters {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                width: 100%;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>📦 Catálogo Digital 2026</h1>
-            <p>Gestiona tu inventario con facilidad</p>
+            <p>Editable • Persistente • En vivo</p>
         </header>
         
         <div class="toolbar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar por nombre, SKU o categoría...">
+            <div class="search-filters">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre, SKU...">
                 <select id="categoryFilter">
                     <option value="">Todas las categorías</option>
                 </select>
+                <select id="currencyFilter">
+                    <option value="">Todas las monedas</option>
+                </select>
             </div>
-            <button onclick="editarPrecios()">✏️ Editar precios</button>
-            <button class="secondary" onclick="guardarCambios()">💾 Guardar cambios</button>
+            <div class="action-buttons">
+                <button onclick="enableEditMode()" id="editModeBtn">✏️ Modo edición</button>
+                <button class="success" onclick="exportData()" style="display:none" id="exportBtn">⬇️ Exportar</button>
+                <button class="danger" onclick="restoreOriginal()" style="display:none" id="restoreBtn">🔄 Restaurar</button>
+            </div>
         </div>
         
         <div class="stats">
             <div class="stat">
                 <div class="stat-value" id="totalProducts">0</div>
-                <div class="stat-label">Productos totales</div>
+                <div class="stat-label">Productos</div>
             </div>
             <div class="stat">
                 <div class="stat-value" id="totalCategories">0</div>
                 <div class="stat-label">Categorías</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="editedCount">0</div>
+                <div class="stat-label">Editados</div>
             </div>
             <div class="stat">
                 <div class="stat-value" id="productsShowing">0</div>
@@ -256,147 +566,369 @@
             </div>
         </div>
         
-        <div class="products-grid" id="productsContainer"></div>
+        <div class="main-content">
+            <div class="products-grid" id="productsContainer"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+    
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">🔐 Contraseña de edición</div>
+            <input type="password" class="modal-input" id="passwordInput" placeholder="Ingresa contraseña">
+            <div class="modal-buttons">
+                <button onclick="cancelPassword()">Cancelar</button>
+                <button class="success" onclick="validatePassword()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <div class="modal-header">🖼️ Cambiar imagen</div>
+            <div class="file-input-wrapper">
+                <label class="file-input-label" for="imageInput">📤 Haz clic para seleccionar imagen</label>
+                <input type="file" id="imageInput" accept="image/*">
+            </div>
+            <img id="imagePreview" class="image-preview" style="display:none">
+            <div class="modal-buttons">
+                <button onclick="cancelImage()">Cancelar</button>
+                <button class="success" onclick="saveImage()" id="saveImageBtn" style="display:none">Guardar</button>
+            </div>
+        </div>
     </div>
     
     <script>
+        const EDIT_PASSWORD = '123456';
+        const MAX_IMAGE_SIZE = 500 * 1024; // 500KB
+        const ITEMS_PER_PAGE = 12;
+        
         let allProducts = [];
         let filteredProducts = [];
+        let currentPage = 1;
         let isEditMode = false;
         let editedPrices = {};
+        let editedImages = {};
+        let currentEditingSku = null;
         
-        // Cargar datos
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            loadEditedData();
+        });
+        
         async function loadProducts() {
             try {
                 const response = await fetch('products.json');
                 const data = await response.json();
                 
-                allProducts = data.products || [];
+                allProducts = data.products.map(p => ({
+                    ...p,
+                    description: p.description || ''
+                }));
+                
                 filteredProducts = [...allProducts];
                 
-                // Poblar selector de categorías
-                const categories = [...new Set(data.categories.map(c => c.name))];
-                const categoryFilter = document.getElementById('categoryFilter');
-                categories.forEach(cat => {
-                    const option = document.createElement('option');
-                    option.value = cat;
-                    option.textContent = cat;
-                    categoryFilter.appendChild(option);
-                });
+                // Poblar selectores
+                populateFilters(data.categories);
                 
                 // Actualizar estadísticas
-                document.getElementById('totalProducts').textContent = allProducts.length;
-                document.getElementById('totalCategories').textContent = data.categories.length;
-                
+                updateStats();
                 renderProducts();
             } catch (error) {
-                console.error('Error cargando productos:', error);
-                document.getElementById('productsContainer').innerHTML = 
-                    '<div class="empty-state"><h2>Error al cargar</h2><p>No se pudieron cargar los productos</p></div>';
+                console.error('Error:', error);
+                showToast('Error cargando catálogo', 'error');
             }
         }
         
-        // Renderizar productos
-        function renderProducts() {
-            const container = document.getElementById('productsContainer');
-            
-            if (filteredProducts.length === 0) {
-                container.innerHTML = '<div class="empty-state"><h2>Sin resultados</h2><p>No se encontraron productos</p></div>';
-                document.getElementById('productsShowing').textContent = '0';
-                return;
+        function loadEditedData() {
+            try {
+                editedPrices = JSON.parse(localStorage.getItem('editedPrices')) || {};
+                editedImages = JSON.parse(localStorage.getItem('editedImages')) || {};
+            } catch (e) {
+                console.error('Error cargando datos locales:', e);
             }
-            
-            container.innerHTML = filteredProducts.map(product => `
-                <div class="product-card">
-                    <div class="product-sku">SKU: ${product.sku}</div>
-                    <div class="product-name">${product.name}</div>
-                    <div class="product-category">${product.category}</div>
-                    ${isEditMode && product.price !== null ? `
-                        <input type="number" class="price-input" data-sku="${product.sku}" 
-                               value="${product.price}" step="0.01">
-                    ` : `
-                        <div class="product-price">
-                            ${product.price !== null ? `$${product.price.toFixed(2)} <span class="price-currency">${product.currency}</span>` : '<span class="no-price">Sin precio</span>'}
-                        </div>
-                    `}
-                </div>
-            `).join('');
-            
-            document.getElementById('productsShowing').textContent = filteredProducts.length;
         }
         
-        // Filtrar productos
+        function populateFilters(categories) {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const currencyFilter = document.getElementById('currencyFilter');
+            
+            const uniqueCategories = [...new Set(categories.map(c => c.name))].sort();
+            const uniqueCurrencies = [...new Set(allProducts.map(p => p.currency))].sort();
+            
+            uniqueCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                categoryFilter.appendChild(option);
+            });
+            
+            uniqueCurrencies.forEach(curr => {
+                const option = document.createElement('option');
+                option.value = curr;
+                option.textContent = curr;
+                currencyFilter.appendChild(option);
+            });
+        }
+        
+        function updateStats() {
+            const categories = [...new Set(allProducts.map(p => p.category))];
+            document.getElementById('totalProducts').textContent = allProducts.length;
+            document.getElementById('totalCategories').textContent = categories.length;
+            document.getElementById('editedCount').textContent = Object.keys(editedPrices).length + Object.keys(editedImages).length;
+        }
+        
         function filterProducts() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const categoryFilter = document.getElementById('categoryFilter').value;
+            const currencyFilter = document.getElementById('currencyFilter').value;
             
             filteredProducts = allProducts.filter(product => {
                 const matchesSearch = !searchTerm || 
                     product.name.toLowerCase().includes(searchTerm) ||
-                    product.sku.toLowerCase().includes(searchTerm) ||
-                    product.category.toLowerCase().includes(searchTerm);
-                    
-                const matchesCategory = !categoryFilter || product.category === categoryFilter;
+                    product.sku.toLowerCase().includes(searchTerm);
                 
-                return matchesSearch && matchesCategory;
+                const matchesCategory = !categoryFilter || product.category === categoryFilter;
+                const matchesCurrency = !currencyFilter || product.currency === currencyFilter;
+                
+                return matchesSearch && matchesCategory && matchesCurrency;
             });
             
+            currentPage = 1;
             renderProducts();
         }
         
-        // Editar precios
-        function editarPrecios() {
-            isEditMode = !isEditMode;
-            renderProducts();
+        function renderProducts() {
+            const container = document.getElementById('productsContainer');
+            
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<div class="empty-state"><h2>No hay resultados</h2><p>Intenta con otros filtros</p></div>';
+                document.getElementById('pagination').innerHTML = '';
+                document.getElementById('productsShowing').textContent = '0';
+                return;
+            }
+            
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            const pageProducts = filteredProducts.slice(start, end);
+            
+            container.innerHTML = pageProducts.map(product => {
+                const isEdited = editedPrices[product.sku] || editedImages[product.sku];
+                const price = editedPrices[product.sku] !== undefined ? editedPrices[product.sku] : product.price;
+                const image = editedImages[product.sku] || product.image || '';
+                
+                return `
+                    <div class="product-card ${isEdited ? 'edited' : ''}">
+                        <div class="product-image-container">
+                            ${image ? `<img src="${image}" class="product-image" alt="${product.name}">` : '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#ccc;">Sin imagen</div>'}
+                            ${isEditMode ? `<button class="edit-image-btn" onclick="openImageEditor('${product.sku}')">📷 Editar</button>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-header">
+                                <span class="product-sku">${product.sku}</span>
+                                ${isEdited ? '<span class="edited-badge">✏️ Editado</span>' : ''}
+                            </div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-category">${product.category}</div>
+                            ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
+                            ${isEditMode ? `
+                                <input type="number" class="edit-price-input" id="price-${product.sku}" 
+                                       value="${price}" step="0.01" placeholder="Precio">
+                            ` : `
+                                <div class="product-price">
+                                    ${price !== null && price !== undefined && price !== '' ? 
+                                        `$${parseFloat(price).toFixed(2)} <span class="price-currency">${product.currency}</span>` : 
+                                        '<span class="no-price">Sin precio</span>'}
+                                </div>
+                            `}
+                            ${isEditMode ? `
+                                <div class="product-actions">
+                                    <button onclick="savePrice('${product.sku}')">💾 Guardar</button>
+                                    <button class="secondary" onclick="resetPrice('${product.sku}')">🔄 Reset</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            renderPagination();
+            document.getElementById('productsShowing').textContent = filteredProducts.length;
         }
         
-        // Guardar cambios
-        function guardarCambios() {
-            if (!isEditMode) return;
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+            const paginationEl = document.getElementById('pagination');
             
-            const inputs = document.querySelectorAll('.price-input');
-            const cambios = {};
+            if (totalPages <= 1) {
+                paginationEl.innerHTML = '';
+                return;
+            }
             
-            inputs.forEach(input => {
-                const sku = input.dataset.sku;
-                const newPrice = parseFloat(input.value);
-                cambios[sku] = newPrice;
-            });
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            paginationEl.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            currentPage = page;
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function enableEditMode() {
+            document.getElementById('passwordModal').classList.add('active');
+            document.getElementById('passwordInput').focus();
+        }
+        
+        function validatePassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === EDIT_PASSWORD) {
+                document.getElementById('passwordModal').classList.remove('active');
+                isEditMode = true;
+                document.getElementById('editModeBtn').style.display = 'none';
+                document.getElementById('exportBtn').style.display = 'inline-block';
+                document.getElementById('restoreBtn').style.display = 'inline-block';
+                renderProducts();
+                showToast('✅ Modo edición activado', 'success');
+            } else {
+                showToast('❌ Contraseña incorrecta', 'error');
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+        
+        function cancelPassword() {
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('passwordInput').value = '';
+        }
+        
+        function savePrice(sku) {
+            const input = document.getElementById(`price-${sku}`);
+            const price = parseFloat(input.value);
             
-            // Actualizar productos
-            allProducts.forEach(product => {
-                if (cambios[product.sku]) {
-                    product.price = cambios[product.sku];
-                }
-            });
+            if (isNaN(price) || price < 0) {
+                showToast('❌ Precio inválido', 'error');
+                return;
+            }
             
-            // Descargar JSON actualizado
-            const dataStr = JSON.stringify({
-                categories: [...new Set(allProducts.map(p => ({
-                    id: p.categoryId,
-                    name: p.category
-                })))],
-                products: allProducts
-            }, null, 2);
+            editedPrices[sku] = price;
+            localStorage.setItem('editedPrices', JSON.stringify(editedPrices));
+            updateStats();
+            renderProducts();
+            showToast('💾 Precio guardado', 'success');
+        }
+        
+        function resetPrice(sku) {
+            delete editedPrices[sku];
+            localStorage.setItem('editedPrices', JSON.stringify(editedPrices));
+            updateStats();
+            renderProducts();
+            showToast('🔄 Precio restaurado', 'success');
+        }
+        
+        function openImageEditor(sku) {
+            currentEditingSku = sku;
+            document.getElementById('imageModal').classList.add('active');
+            document.getElementById('imageInput').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('saveImageBtn').style.display = 'none';
+        }
+        
+        function cancelImage() {
+            document.getElementById('imageModal').classList.remove('active');
+            currentEditingSku = null;
+        }
+        
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
             
+            if (file.size > MAX_IMAGE_SIZE) {
+                showToast('❌ Imagen muy grande (máx 500KB)', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('imagePreview').src = event.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+                document.getElementById('saveImageBtn').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        function saveImage() {
+            if (!currentEditingSku) return;
+            
+            const imageData = document.getElementById('imagePreview').src;
+            if (!imageData) {
+                showToast('❌ Selecciona una imagen', 'error');
+                return;
+            }
+            
+            editedImages[currentEditingSku] = imageData;
+            localStorage.setItem('editedImages', JSON.stringify(editedImages));
+            updateStats();
+            renderProducts();
+            showToast('🖼️ Imagen guardada', 'success');
+            cancelImage();
+        }
+        
+        function exportData() {
+            const exported = allProducts.map(p => ({
+                ...p,
+                price: editedPrices[p.sku] !== undefined ? editedPrices[p.sku] : p.price
+            }));
+            
+            const dataStr = JSON.stringify(exported, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'products.json';
+            a.download = `catalogo-${new Date().getTime()}.json`;
             a.click();
             
-            isEditMode = false;
-            alert('Cambios guardados. Descargaste el archivo actualizado.');
-            renderProducts();
+            showToast('⬇️ Catálogo exportado', 'success');
+        }
+        
+        function restoreOriginal() {
+            if (confirm('¿Restaurar todos los datos originales? Esto eliminará todos los cambios locales.')) {
+                editedPrices = {};
+                editedImages = {};
+                localStorage.removeItem('editedPrices');
+                localStorage.removeItem('editedImages');
+                updateStats();
+                renderProducts();
+                showToast('🔄 Datos restaurados', 'success');
+            }
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type === 'error' ? 'error' : ''}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
         
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', filterProducts);
         document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+        document.getElementById('currencyFilter').addEventListener('change', filterProducts);
         
-        // Cargar al iniciar
-        loadProducts();
+        document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') validatePassword();
+        });
+        
+        document.getElementById('imageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Escape') cancelImage();
+        });
     </script>
 </body>
 </html>
