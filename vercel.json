@@ -1,1 +1,21 @@
-{"buildCommand":"","outputDirectory":"."}
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/data/products.json",
+      "headers": { "Cache-Control": "public, max-age=3600", "Content-Type": "application/json; charset=utf-8" },
+      "dest": "/data/products.json"
+    },
+    {
+      "src": "/css/(.*)",
+      "headers": { "Cache-Control": "public, max-age=86400" },
+      "dest": "/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "headers": { "Cache-Control": "public, max-age=86400" },
+      "dest": "/js/$1"
+    },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
